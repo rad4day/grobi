@@ -485,7 +485,8 @@ func DetectOutputs() (Outputs, error) {
 // BuildCommandOutputRow return a sequence of calls to `xrandr` to configure
 // all named outputs in a row, left to right, given the currently active
 // Outputs and a list of output names, optionally followed by "@" and the
-// desired mode, e.g. LVDS1@1377x768.
+// desired mode, optionally followed by :: and a rotation e.g. LVDS1@1377x768,
+// or LVDS@1920x1080::left.
 func BuildCommandOutputRow(rule Rule, current Outputs) ([]*exec.Cmd, error) {
 	var outputs []string
 	var row bool
@@ -511,10 +512,16 @@ func BuildCommandOutputRow(rule Rule, current Outputs) ([]*exec.Cmd, error) {
 	active := make(map[string]struct{})
 	var lastOutput = ""
 	for i, output := range outputs {
-		data := strings.SplitN(output, "@", 2)
-		name := data[0]
+		data := strings.SplitN(output, "::", 2)
 		mode := ""
+		name := data[0]
+		rotation := ""
 		if len(data) > 1 {
+			rotation = data[1]
+		}
+		data = strings.SplitN(output, "@", 2)
+		if len(data) > 1 {
+			name = data[0]
 			mode = data[1]
 		}
 
@@ -526,6 +533,10 @@ func BuildCommandOutputRow(rule Rule, current Outputs) ([]*exec.Cmd, error) {
 			args = append(args, "--auto")
 		} else {
 			args = append(args, "--mode", mode)
+		}
+
+		if rotation != "" {
+			args = append(args, "--rotate", rotation)
 		}
 
 		if i > 0 {

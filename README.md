@@ -1,10 +1,14 @@
-[![Build Status](https://github.com/fd0/grobi/workflows/test/badge.svg)](https://github.com/fd0/grobi/actions?query=workflow%3Atest)
+[![Build Status](https://github.com/rad4day/grobi/workflows/test/badge.svg)](https://github.com/rad4day/grobi/actions?query=workflow%3Atest)
 
 # grobi
 
 This program watches for changes in the available outputs (e.g. when a monitor
 is connected/disconnected) and will automatically configure the currently used
 outputs via RANDR according to configurable profiles.
+
+## This Fork
+This fork makes a few changes. For one it adds the possibility to specify a
+display rotation. For details see [doc/grobi.conf].
 
 # Installation
 
