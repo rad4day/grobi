@@ -519,7 +519,7 @@ func BuildCommandOutputRow(rule Rule, current Outputs) ([]*exec.Cmd, error) {
 		if len(data) > 1 {
 			rotation = data[1]
 		}
-		data = strings.SplitN(output, "@", 2)
+		data = strings.SplitN(data[0], "@", 2)
 		if len(data) > 1 {
 			name = data[0]
 			mode = data[1]
